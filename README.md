@@ -1,40 +1,40 @@
-# Sosta Bazar Deploy
+# Sosta Bazar — Full Docker Stack
 
-Production Docker Compose stack for the decoupled Sosta Bazar platform.
+Run the entire platform with **one command**. No local Node/Python install needed.
+
+## Start
+
+```bash
+cd sosta-bazar-deploy
+docker compose up --build -d
+```
+
+## Open in browser
+
+| URL | What |
+|-----|------|
+| **http://localhost:8080** | Main app (search, deals, compare prices) |
+| http://localhost:8080/docs | API documentation |
+| http://localhost:8080/health | API health check |
+
+## Stop
+
+```bash
+docker compose down
+```
+
+## Rebuild after code changes
+
+```bash
+docker compose up --build -d
+```
 
 ## Services
 
+- **nginx** (port 8080) — single entry point
 - **web** — Next.js frontend
 - **api** — FastAPI backend
 - **worker** — Celery scraper workers
-- **beat** — Scheduled refresh jobs
-- **postgres** — PostgreSQL database
-- **redis** — Cache and job queue
-- **nginx** — Reverse proxy
-
-## Quick start
-
-```bash
-cp .env.example .env
-# Edit .env with production values
-
-docker compose -f docker-compose.prod.yml pull
-docker compose -f docker-compose.prod.yml up -d
-```
-
-Visit `http://your-server` (port 80).
-
-## Local dev
-
-Run each repo separately:
-
-```bash
-# API
-cd ../sosta-bazar-api && docker compose up
-
-# Web
-cd ../sosta-bazar-web && npm run dev
-```
-
-Frontend: http://localhost:3000  
-API: http://localhost:8000/docs
+- **beat** — scheduled price refresh
+- **postgres** — database
+- **redis** — cache + job queue
